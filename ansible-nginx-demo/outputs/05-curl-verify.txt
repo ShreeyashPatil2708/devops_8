@@ -1,0 +1,9 @@
+--- curl http://localhost:8081/ ---
+<h1>Web Server Configured Using Ansible</h1>
+
+--- curl http://localhost:8082/ ---
+<h1>Web Server Configured Using Ansible</h1>
+
+--- curl http://localhost:8083/ ---
+<h1>Web Server Configured Using Ansible</h1>
+

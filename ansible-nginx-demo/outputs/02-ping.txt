@@ -1,0 +1,12 @@
+server1 | SUCCESS => {
+    "changed": false,
+    "ping": "pong"
+}
+server3 | SUCCESS => {
+    "changed": false,
+    "ping": "pong"
+}
+server2 | SUCCESS => {
+    "changed": false,
+    "ping": "pong"
+}

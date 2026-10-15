@@ -1,0 +1,30 @@
+services:
+  server1:
+    build: .
+    container_name: ansible-demo-server1
+    hostname: server1
+    ports:
+      - "2201:22"
+      - "8081:80"
+    volumes:
+      - ./ssh-key/id_rsa_ansible.pub:/home/devops/.ssh/authorized_keys:ro
+
+  server2:
+    build: .
+    container_name: ansible-demo-server2
+    hostname: server2
+    ports:
+      - "2202:22"
+      - "8082:80"
+    volumes:
+      - ./ssh-key/id_rsa_ansible.pub:/home/devops/.ssh/authorized_keys:ro
+
+  server3:
+    build: .
+    container_name: ansible-demo-server3
+    hostname: server3
+    ports:
+      - "2203:22"
+      - "8083:80"
+    volumes:
+      - ./ssh-key/id_rsa_ansible.pub:/home/devops/.ssh/authorized_keys:ro

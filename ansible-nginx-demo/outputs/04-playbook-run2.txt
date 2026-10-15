@@ -1,0 +1,28 @@
+
+PLAY [Install and configure Nginx on all webservers] ***************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [server2]
+ok: [server1]
+ok: [server3]
+
+TASK [Install nginx package] ***************************************************
+ok: [server1]
+ok: [server3]
+ok: [server2]
+
+TASK [Start nginx service] *****************************************************
+ok: [server2]
+ok: [server3]
+ok: [server1]
+
+TASK [Deploy custom index.html] ************************************************
+ok: [server1]
+ok: [server2]
+ok: [server3]
+
+PLAY RECAP *********************************************************************
+server1                    : ok=4    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+server2                    : ok=4    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+server3                    : ok=4    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+

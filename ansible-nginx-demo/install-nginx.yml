@@ -1,0 +1,51 @@
+---
+# Assignment 8 - Part B
+# Automated Installation and Configuration of Nginx Web Server Using Ansible
+#
+# Target: 3 "servers" (Docker containers simulating real machines), reached over SSH.
+
+- name: Install and configure Nginx on all webservers
+  hosts: webservers
+  become: yes
+
+  tasks:
+    - name: Install nginx package
+      apt:
+        name: nginx
+        state: present
+        update_cache: yes
+      # If nginx is already installed, apt reports changed=false on re-run.
+      # This is the first proof of idempotency.
+      notify: Restart nginx
+
+    - name: Start nginx service
+      service:
+        name: nginx
+        state: started
+      # NOTE: These containers have no systemd (PID 1 is just sshd), so we
+      # cannot use "systemctl enable nginx" for boot-persistence the way a
+      # real VM would. The "service" module still works here because Ubuntu's
+      # nginx package ships a traditional init.d script, which the service
+      # module invokes directly (via invoke-rc.d) to start the nginx process.
+      # On a real VM/server you would add "enabled: yes" too, so nginx
+      # survives a reboot - that line is omitted here only because this demo
+      # container has no init system to manage boot services.
+
+    - name: Deploy custom index.html
+      copy:
+        content: "<h1>Web Server Configured Using Ansible</h1>\n"
+        dest: /var/www/html/index.html
+        mode: "0644"
+      # Idempotency proof #2: if the file content is already identical,
+      # Ansible's copy module reports changed=false on the next run,
+      # instead of blindly re-writing the file every time like a shell script would.
+
+  handlers:
+    # This handler only fires when the "Install nginx package" task above
+    # actually changes something (i.e. a fresh install or an upgrade).
+    # On the second run of this playbook, the install task is changed=false,
+    # so this handler does NOT run - another clear sign of idempotency.
+    - name: Restart nginx
+      service:
+        name: nginx
+        state: restarted
